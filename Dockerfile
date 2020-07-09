@@ -7,7 +7,7 @@ RUN apt-get update && apt-get -y install \
     nodejs
 
 # Switch back to jovyan user
-USER jovyan
+USER $NB_USER
 
 # Install plotly & components.
 RUN pip install plotly && jupyter labextension install \
@@ -24,3 +24,7 @@ RUN jupyter labextension install \
     @aquirdturtle/collapsible_headings \
     @ijmbarr/jupyterlab_spellchecker \
     @jupyterlab/toc
+
+# Install & Configure Streamlit.
+RUN pip install streamlit
+EXPOSE 8501
