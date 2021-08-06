@@ -1,6 +1,9 @@
 FROM jupyter/datascience-notebook:latest
 MAINTAINER Harrison Totty <harrisongtotty@gmail.com>
 
+ENV PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_NO_CACHE_DIR=false
+
 # Run commands that require root.
 USER root
 RUN apt-get update && apt-get -y install \
@@ -10,7 +13,7 @@ RUN apt-get update && apt-get -y install \
 USER $NB_USER
 
 # Install plotly & components.
-RUN pip install plotly && jupyter labextension install \
+RUN pip install plotly jupyter-dash && jupyter labextension install \
     jupyterlab-plotly \
     @jupyter-widgets/jupyterlab-manager \
     plotlywidget
@@ -25,6 +28,4 @@ RUN jupyter labextension install \
     @ijmbarr/jupyterlab_spellchecker \
     @jupyterlab/toc
 
-# Install & Configure Streamlit.
-RUN pip install streamlit
-EXPOSE 8501
+RUN jupyter lab build
